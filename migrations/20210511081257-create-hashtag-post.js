@@ -10,6 +10,7 @@ module.exports = {
       },
       hashtagId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         allowNull:false,
         references:{
           model: 'Hashtags',
@@ -18,6 +19,7 @@ module.exports = {
       },
       postId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         allowNull:false,
         references:{
           model: 'Posts',

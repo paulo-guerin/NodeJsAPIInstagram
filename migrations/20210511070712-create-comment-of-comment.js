@@ -10,6 +10,7 @@ module.exports = {
       },
       commentedId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         allowNull:false,
         references:{
           model: 'Comments',
@@ -18,6 +19,7 @@ module.exports = {
       },
       commentOfCommentId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         allowNull:false,
         references:{
           model: 'Comments',

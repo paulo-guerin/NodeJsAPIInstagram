@@ -7,19 +7,19 @@ const Hashtag = models.Hashtag;
 User.bulkCreate([
     {
         email: 'john-doe@domain.com',
-        username: 'JohnDoe',
+        login: 'JohnDoe',
         birthdate:'1991-05-18',
         password: 'hello'
     },
     {
         email: 'plop@domain.com',
-        username: 'Plop',
+        login: 'Plop',
         birthdate:'1996-04-23',
         password: 'hey'
     },
     {
         email: 'fake@domain.com',
-        username: 'Fake',
+        login: 'Fake',
         birthdate:'1990-08-02',
         password: 'test'
     }
@@ -111,7 +111,7 @@ Hashtag.bulkCreate([
     Post.findAll({where: {id: [1,2,3]}, include:['hashtags']})
     .then((posts)=>{
         posts.map(post=> {
-            post.Hashtags(newHashtags)
+            post.setHashtags(newHashtags)
         })
     })
 })
