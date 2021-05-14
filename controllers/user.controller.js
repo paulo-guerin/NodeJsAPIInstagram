@@ -5,20 +5,24 @@ const jwt = require('jsonwebtoken');
 
 exports.user_add = (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hash) =>{
+    let age;
     if(err){
       throw err
     }
-    let user = req.body;
-    user.password = hash;
-    User.create(user)
-    .then( data => res.status(201).json({
-      login: data.login,
-      email: data.email,
-      birthdate: data.birthdate
-    }))
-    .catch( err => console.log(err))
+    if( age = ((Date.now() - new Date(req.body.birthdate)) / (31557600000)) >= 18 ){
+      let user = req.body;
+      user.password = hash;
+      User.create(user)
+      .then( data => res.status(201).json({
+        login: data.login,
+        email: data.email,
+        birthdate: data.birthdate
+      }))
+      .catch( err => console.log(err))
+    } else {
+      return res.json({ message: 'Vous devez être majeur pour vous inscrire' })
     }
-  )
+  })
 }
 
 exports.user_login = (req, res, next) => {
@@ -116,5 +120,20 @@ exports.user_delete = (req, res, next) =>{
     }
   })
   .then(user => res.status(200).json({message: 'user deleted'}))
+  .catch(err => console.log(err))
+}
+
+exports.user_follow = (req, res, next) =>{
+  const id = req.params.id;
+  const token = req.headers.authorization.split(" ")[1];
+  User.findByPk(id)
+  .then(followed => {
+    User.findByPk(jwt.decode(token).id)
+    .then(follower => {
+      followed.setFollowers([follower])
+      res.status(200).json({message: follower})
+    })
+    .catch(err => console.log(err))
+  })
   .catch(err => console.log(err))
 }

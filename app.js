@@ -20,4 +20,4 @@ app.use(cors());
 app.use('/users', userRouter);
 app.use('/posts', postRouter);
 
-app.listen( port, () => {});
+module.exports = app.listen( port, () => {});
