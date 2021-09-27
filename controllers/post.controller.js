@@ -155,14 +155,6 @@ exports.post_search = (req, res, next) =>{
 
 exports.post_user_thread = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1];
-  let options = { 
-    include : [
-      {
-        model: Hashtag,
-        as : 'hashtags'
-      }
-    ]
-  };
 
   User.findByPk(jwt.decode(token).id, {
     include: [

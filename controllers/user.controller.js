@@ -1,5 +1,6 @@
 const User = require('../models').User;
 const Post = require('../models').Post;
+const FollowedFollower = require('../models').FollowedFollower;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -124,11 +125,13 @@ exports.user_delete = (req, res, next) =>{
 }
 
 exports.user_follow = (req, res, next) =>{
-  const id = req.params.id;
-  const token = req.headers.authorization.split(" ")[1];
+  const id = req.body.userId;
+
   User.findByPk(id)
   .then(followed => {
-    User.findByPk(jwt.decode(token).id)
+    User.findByPk(res.locals.userId, {
+      attributes: ["login"]
+    })
     .then(follower => {
       followed.setFollowers([follower])
       res.status(200).json({message: follower})

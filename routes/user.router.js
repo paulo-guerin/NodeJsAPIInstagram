@@ -10,6 +10,6 @@ router.post('/addUser',user_controller.user_add);
 router.post('/login',user_controller.user_login);
 router.put('/:id',auth(),isUser(),user_controller.user_edit);
 router.delete('/:id',auth(),isUser(),user_controller.user_delete);
-router.get('/follow/:id',auth(),user_controller.user_follow);
+router.post('/follow',auth(),user_controller.user_follow);
 
 module.exports = router;
